@@ -1,13 +1,18 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton
 from PyQt5.QtCore import Qt, QPoint, QTimer, QTime, QEvent
-from PyQt5.QtGui import QCursor  # Add QCursor from QtGui module
+from PyQt5.QtGui import QCursor,QIcon  # Add QCursor from QtGui module
 import json
+import ctypes
+import sys
+import os
 
 class EzClock(QMainWindow):
     CONFIG_FILE = '.clock_config.json'
     def __init__(self):
         super().__init__()
+        myappid = 'com.ezClock.clock.1.0'  # Replace with your own identifier
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
         # Set window properties
         self.setWindowTitle("Your Window Title")
@@ -24,6 +29,9 @@ class EzClock(QMainWindow):
         self.Main_label = QLabel("Clock", self)
         self.font_size = 24
         self.Main_label.setStyleSheet("font-size: 24px; color: white;")
+        
+        icon_path = EzClock.resource_path("res/icon.png")
+        self.setWindowIcon(QIcon(icon_path))
 
         # Add the label to the layout
         layout.addWidget(self.Main_label)
@@ -62,9 +70,22 @@ class EzClock(QMainWindow):
         # Create a QTimer for periodic updates
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
-        self.fps = 10  # Set your desired frame rate in frames per second
+        self.fps = 5  # Set your desired frame rate in frames per second
         self.timer.start(int(1000 / self.fps))  # Timer interval in milliseconds
         self.cnt = 0
+
+    @staticmethod
+    def resource_path(relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        try:
+            # PyInstaller creates a temp folder and sets _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            # Use the current working directory for development or non-PyInstaller runs
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
+
     def load_config(self):
         try:
             with open(EzClock.CONFIG_FILE, 'r') as config_file:
@@ -154,6 +175,7 @@ class EzClock(QMainWindow):
 
     def update_frame(self):
         current_time = QTime.currentTime().toString("hh:mm")
+        print(current_time)
         self.Main_label.setText(f"{current_time}")
 
     def close_window(self):

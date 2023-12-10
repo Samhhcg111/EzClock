@@ -1,2 +1,5 @@
 .pyenv/
 .clock_config.json
+build/
+dist/
+*.spec
