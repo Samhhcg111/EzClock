@@ -2,6 +2,8 @@
 
 I need a clock for my desktop, so my best friend GPT and I built an EzClock widget with Python.
 
+[![Demo](Demo/EzclockDemo.png)](https://youtu.be/cGUokT70o8Y)
+
 # Install requirement
 
 `python -m pip install -r requirements.txt`
