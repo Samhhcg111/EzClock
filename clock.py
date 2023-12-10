@@ -20,7 +20,7 @@ class EzClock(QMainWindow):
         # Set window properties
         self.setWindowTitle("Your Window Title")
         self.setGeometry(100, 100, 700, 700)
-        self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
         # Create central widget and layout
