@@ -19,7 +19,7 @@ class EzClock(QMainWindow):
 
         # Set window properties
         self.setWindowTitle("Your Window Title")
-        self.setGeometry(100, 100, 400, 300)
+        self.setGeometry(100, 100, 700, 700)
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
@@ -29,7 +29,7 @@ class EzClock(QMainWindow):
         layout.setAlignment(Qt.AlignCenter)
 
         # Color options for the clock text
-        self.color_list = ["white", 'black', 'blue']
+        self.color_list = ["white", 'black', '#FF0000']
         self.color_index = 0
         
         # Set window icon
@@ -70,16 +70,17 @@ class EzClock(QMainWindow):
     def AddMainWidget(self,layout):
         # Main clock label and font size
         self.Main_label = QLabel("Clock", self)
-        self.font_size = 24
+        self.font_size = 300
         
         # Create a button to adjust window size and label size
         self.adjust_size_button = QPushButton("Adjust Size", self)
         self.adjust_size_button.setMouseTracking(True)  # Enable mouse tracking for continuous tracking
         self.adjust_size_button.installEventFilter(self)  # Install event filter to track mouse events
+        self.adjust_size_button.setStyleSheet("font-size: 16px; color: #FFFFFF; background-color: #8D99AE;")
 
         # Button to change clock text color
         self.change_color_button = QPushButton("Change Color", self)
-        self.change_color_button.setStyleSheet("font-size: 16px; color: black; background-color: white;")
+        self.change_color_button.setStyleSheet("font-size: 16px; color: #FFFFFF; background-color: #8D99AE;")
         self.change_color_button.pressed.connect(self.change_color_callback)
 
         # Create close button
