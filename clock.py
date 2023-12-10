@@ -31,40 +31,16 @@ class EzClock(QMainWindow):
         # Color options for the clock text
         self.color_list = ["white", 'black', 'blue']
         self.color_index = 0
-
-        # Main clock label and font size
-        self.Main_label = QLabel("Clock", self)
-        self.font_size = 24
-
+        
         # Set window icon
         icon_path = EzClock.resource_path("res/icon.png")
         self.setWindowIcon(QIcon(icon_path))
 
-        # Add the label to the layout
-        layout.addWidget(self.Main_label)
-
-        # Create a button to adjust window size and label size
-        self.adjust_size_button = QPushButton("Adjust Size", self)
-        self.adjust_size_button.setMouseTracking(True)  # Enable mouse tracking for continuous tracking
-        self.adjust_size_button.installEventFilter(self)  # Install event filter to track mouse events
-
-        # Create close button
-        self.close_button = QPushButton("X", self)
-        self.close_button.setStyleSheet("font-size: 16px; color: white; background-color: red;")
-        self.close_button.pressed.connect(self.close_window)
-
         # Variable to track window frame visibility
         self.frame_visible = False
-
-        # Button to change clock text color
-        self.change_color_button = QPushButton("Change Color", self)
-        self.change_color_button.setStyleSheet("font-size: 16px; color: black; background-color: white;")
-        self.change_color_button.pressed.connect(self.change_clock_callback)
-
-        # Add buttons to the layout
-        layout.addWidget(self.close_button, alignment=Qt.AlignTop | Qt.AlignRight)
-        layout.addWidget(self.adjust_size_button, alignment=Qt.AlignTop | Qt.AlignRight)
-        layout.addWidget(self.change_color_button, alignment=Qt.AlignTop | Qt.AlignRight)
+    
+        #Add AddMainWidget for main layout
+        self.AddMainWidget(layout)
 
         # Set central widget
         self.setCentralWidget(central_widget)
@@ -89,13 +65,43 @@ class EzClock(QMainWindow):
         self.fps = 5  # Set your desired frame rate in frames per second
         self.timer.start(int(1000 / self.fps))  # Timer interval in milliseconds
         self.cnt = 0
+    
+    #Add AddMainWidget for main layout
+    def AddMainWidget(self,layout):
+        # Main clock label and font size
+        self.Main_label = QLabel("Clock", self)
+        self.font_size = 24
+        
+        # Create a button to adjust window size and label size
+        self.adjust_size_button = QPushButton("Adjust Size", self)
+        self.adjust_size_button.setMouseTracking(True)  # Enable mouse tracking for continuous tracking
+        self.adjust_size_button.installEventFilter(self)  # Install event filter to track mouse events
 
-    def change_clock_callback(self):
+        # Button to change clock text color
+        self.change_color_button = QPushButton("Change Color", self)
+        self.change_color_button.setStyleSheet("font-size: 16px; color: black; background-color: white;")
+        self.change_color_button.pressed.connect(self.change_color_callback)
+
+        # Create close button
+        self.close_button = QPushButton("X", self)
+        self.close_button.setStyleSheet("font-size: 16px; color: white; background-color: red;")
+        self.close_button.pressed.connect(self.close_window)
+
+        # Add the label to the layout
+        layout.addWidget(self.Main_label)
+
+        # Add buttons to the layout
+        layout.addWidget(self.close_button, alignment=Qt.AlignTop | Qt.AlignRight)
+        layout.addWidget(self.adjust_size_button, alignment=Qt.AlignTop | Qt.AlignRight)
+        layout.addWidget(self.change_color_button, alignment=Qt.AlignTop | Qt.AlignRight)
+
+    def change_color_callback(self):
         # Change clock text color on button press
         self.color_index += 1
         if self.color_index >= len(self.color_list):
             self.color_index = 0
         self.updateTextStyle()
+        self.save_config()
 
     @staticmethod
     def resource_path(relative_path):
