@@ -16,7 +16,7 @@ install python compile tool:
 
 compile:
 
-`pyinstaller --onefile --icon "res/icon.ico" --hide-console hide-early -F --add-data "res;res" clock.py`
+`pyinstaller --onefile --icon "res/icon.ico" --hide-console hide-early  --noconsole -F --add-data "res;res" clock.py`
 
 ## Troubleshooting
 

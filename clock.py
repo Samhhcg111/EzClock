@@ -16,7 +16,8 @@ class EzClock(QMainWindow):
         # Set application identifier for Windows taskbar
         myappid = 'com.ezClock.clock.1.0'
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-
+        ctypes.windll.kernel32.FreeConsole()
+        
         # Set window properties
         self.setWindowTitle("Your Window Title")
         self.setGeometry(100, 100, 700, 700)
